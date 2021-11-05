@@ -1,8 +1,8 @@
 import React from 'react';
-import {AppBar, IconButton, Toolbar, Typography} from "@mui/material";
+import {AppBar, Badge, IconButton, Toolbar, Typography} from "@mui/material";
 import {ShoppingBasket} from "@mui/icons-material";
 
-const Header = ({handleCard}) => {
+const Header = ({handleCard, orderLen}) => {
     return (
         <AppBar position={'static'}>
             <Toolbar>
@@ -17,7 +17,13 @@ const Header = ({handleCard}) => {
                     color={'inherit'}
                     onClick={handleCard}
                 >
-                    <ShoppingBasket/>
+                    <Badge
+                        color={"secondary"}
+                        badgeContent={orderLen}
+                    >
+                        <ShoppingBasket/>
+
+                    </Badge>
                 </IconButton>
             </Toolbar>
         </AppBar>

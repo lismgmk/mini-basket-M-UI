@@ -1,20 +1,21 @@
 import React from 'react';
-import {Divider, Drawer, ListItem, ListItemIcon, ListItemText, List} from "@mui/material";
-import { ShoppingBasket} from "@mui/icons-material";
+import {Divider, Drawer, ListItem, ListItemIcon, ListItemText, List, Typography} from "@mui/material";
+import {ShoppingBasket} from "@mui/icons-material";
+import BasketItem from "./BasketItem";
 
 const Basket = (props) => {
-    const{
+    const {
         cartOpen,
         closeCard = Function.prototype,
-        order,
+        order=[],
         removeFromOrder
     } = props
 
     return (
         <Drawer
-        anchor={'right'}
-        open={cartOpen}
-        onClose={closeCard}
+            anchor={'right'}
+            open={cartOpen}
+            onClose={closeCard}
         >
             <List sx={{width: '400px'}}>
                 <ListItem>
@@ -24,7 +25,26 @@ const Basket = (props) => {
                     <ListItemText primary={'Корзина'}/>
                 </ListItem>
                 <Divider/>
-                45454
+
+                {!order.length ? (
+                    <ListItem>Корзина пуста!</ListItem>
+                ) : (<>
+                {order.map(item => (
+                    <BasketItem key={item.name} removeFromOrder={removeFromOrder} {...item}/>
+                    ))}
+                    <Divider/>
+                    <ListItem>
+                        <Typography sx={{fontWeight: 700}}>
+                            Общая стоимость:{' '}
+                            {order.reduce((acc, item) => {
+                                return acc + item.price * item.quantity;
+                            }, 0)}{' '}
+                            рублей.
+                        </Typography>
+                    </ListItem>
+                </>
+
+                ) }
             </List>
         </Drawer>
     );
